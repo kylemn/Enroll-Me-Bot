@@ -12,17 +12,17 @@ urlBase = 'http://www.registrar.ucla.edu/schedule/'
 #Input class info that you want to GET ENROLLED in
 
 #Ex. 14F for Fall 2014 or 15W for Winter 2015
-term = '15W'
+term = '15S'
 
 #The department Ex. 'COM+SCI'
-subjectarea = 'SCAND'
+subjectarea = 'MIMG'
 
 #The actual course number/ID
-courseid = '0050'
+courseid = '0103AL++'
 
 #does this class have pre-reqs? restrictions? impacted? transaction fee? set to # of checks needed if true or 0(false) 
-haveReqs = 0
-haveRestrictions = 0
+haveReqs = 1
+haveRestrictions = 1
 isImpacted = 0
 misc = 1
 
@@ -31,12 +31,12 @@ hasConflicts = 0
 
 #Class filter list, LIST ALL CLASSES YOU ARE 'OK' WITH 
 #Ex. '1A' or '2B'
-sectionFilter = ['1']
+sectionFilter = ['1A']
 
 #myUCLAlogininfo
 url = "http://my.ucla.edu"
-username = "USER"
-pw = "PASSWORD"
+username = "USERNAME"
+pw = "PW"
 
 #sleep time interval between attempts (in seconds)
 sleepInterval = 20
@@ -47,18 +47,23 @@ xpaths = { 'signInBox' : "/html/body/form/div[3]/div[3]/div/div[2]/div[1]/div[1]
 			'pwField' : "/html/body/div[1]/div[2]/div[1]/form/div[2]/input",
 			'signInBox2' : "/html/body/div[1]/div[2]/div[1]/form/div[3]/input",
 			'advancedSearch' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[3]/a/div/div[2]/h3",
+			#'term' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[1]/select",
+			'termSelect' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[1]/select/optgroup/option[2]",
 			'searchByCriteria' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[2]/div[2]/select",
-			'classIDoption' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[2]/div[2]/select/option[2]",
+			'classIDoption' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[2]/div[2]/div/select/option[2]",
 			'classIDfield' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[3]/div[2]/div/input",
+			#'classIDfield' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[3]/div/div[1]/div[2]/input[1]",
 			'searchButton' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[4]/button[1]",
-			'checkboxDisc' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[1]/input",
+			#'checkboxDisc' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[1]/input",
+			'checkboxDisc' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[1]/input",
 			'enrollButton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div/div/div[2]/ul/li[1]/button",							 
 			'preReqWarning' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div/div/div[2]/div[4]/label/input",
 			'checkBUtton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div[1]/div/div[2]/div[4]/label/input",
-                        'enrollButton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div/div[2]/div/div[2]/ul/li[1]/button"
+            #//*[@id="267180204_267180200_KOREA0060M-checkbox"]
+            #'enrollButton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div/div[2]/div/div[2]/ul/li[1]/button"
+            'enrollButton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div/div/div[2]/ul/li[1]/button"
 }
 ########################################################
-/html/body/
 
 def getURL(term, subject, id):
 	return urlBase + 'detselect.aspx?termsel=%s&subareasel=%s&idxcrs=%s' % (term, subject, id)
@@ -97,13 +102,18 @@ def login (classid, numChecks):
 		driver.implicitly_wait(5)
 		driver.get('https://sa.ucla.edu/ro/classsearch/')
 
+		#Set term
+
+
 		#Set to classIDoption
 		driver.find_element_by_xpath(xpaths['advancedSearch']).click()
+		driver.find_element_by_xpath(xpaths['termSelect']).click()
 		#driver.find_element_by_id('advSearch_header').click()
-		#driver.implicitly_wait(1)
+		driver.implicitly_wait(5)
 		driver.find_element_by_xpath(xpaths['classIDoption']).click()
 
 		#Input classid and click search
+		driver.implicitly_wait(3)
 		driver.find_element_by_xpath(xpaths['classIDfield']).clear()
 		driver.find_element_by_xpath(xpaths['classIDfield']).send_keys(classid)
 		driver.find_element_by_xpath(xpaths['searchButton']).click()
