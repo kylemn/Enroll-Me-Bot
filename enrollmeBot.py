@@ -15,31 +15,31 @@ urlBase = 'http://www.registrar.ucla.edu/schedule/'
 term = '15S'
 
 #The department Ex. 'COM+SCI'
-subjectarea = 'MIMG'
+subjectarea = 'ENGR'
 
 #The actual course number/ID
-courseid = '0103AL++'
+courseid = '0120'
 
 #does this class have pre-reqs? restrictions? impacted? transaction fee? set to # of checks needed if true or 0(false) 
-haveReqs = 1
-haveRestrictions = 1
+haveReqs = 0
+haveRestrictions = 0
 isImpacted = 0
-misc = 1
+misc = 0
 
 #input how many different time conflicts you have for wanted class
 hasConflicts = 0
 
 #Class filter list, LIST ALL CLASSES YOU ARE 'OK' WITH 
 #Ex. '1A' or '2B'
-sectionFilter = ['1A']
+sectionFilter = ['1']
 
 #myUCLAlogininfo
 url = "http://my.ucla.edu"
-username = "USERNAME"
+username = "USER"
 pw = "PW"
 
 #sleep time interval between attempts (in seconds)
-sleepInterval = 20
+sleepInterval = 40
 
 ####################################################### XPATH INFO
 xpaths = { 'signInBox' : "/html/body/form/div[3]/div[3]/div/div[2]/div[1]/div[1]/div/div[2]/div[2]/a[1]",
@@ -47,21 +47,16 @@ xpaths = { 'signInBox' : "/html/body/form/div[3]/div[3]/div/div[2]/div[1]/div[1]
 			'pwField' : "/html/body/div[1]/div[2]/div[1]/form/div[2]/input",
 			'signInBox2' : "/html/body/div[1]/div[2]/div[1]/form/div[3]/input",
 			'advancedSearch' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[3]/a/div/div[2]/h3",
-			#'term' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[1]/select",
 			'termSelect' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[1]/select/optgroup/option[2]",
 			'searchByCriteria' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[2]/div[2]/select",
 			'classIDoption' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[2]/div[2]/div/select/option[2]",
 			'classIDfield' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[3]/div[2]/div/input",
-			#'classIDfield' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[1]/div[3]/div/div[1]/div[2]/input[1]",
 			'searchButton' : "/html/body/div[1]/div[3]/div/div[2]/div[1]/div/form/div[4]/div[4]/button[1]",
 			#'checkboxDisc' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[1]/input",
-			'checkboxDisc' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[1]/input",
-			'enrollButton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div/div/div[2]/ul/li[1]/button",							 
+			'checkboxDisc' : "//*[@id=\"186425200_ENGR0120-checkbox\"]",
 			'preReqWarning' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div/div/div[2]/div[4]/label/input",
 			'checkBUtton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div[1]/div/div[2]/div[4]/label/input",
-            #//*[@id="267180204_267180200_KOREA0060M-checkbox"]
-            #'enrollButton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div/div[2]/div/div[2]/ul/li[1]/button"
-            'enrollButton' : "/html/body/div[1]/div[3]/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div[10]/div[2]/div/div[10]/div/div/div/div[2]/ul/li[1]/button"
+            'enrollButton' : "//*[@id=\"btn_Enroll\"]"
 }
 ########################################################
 
@@ -220,7 +215,7 @@ while(flag == 0):
 				break
 
 	if (flag == 0):
-		print 'Attempting again in 20s...\n'
+		print 'Attempting again in %ds...\n' % (sleepInterval)
 		#CONFIGURE INTERVAL TIME HERE
 		time.sleep(sleepInterval)
 
